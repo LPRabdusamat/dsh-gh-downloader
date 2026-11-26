@@ -1,0 +1,17 @@
+# Node / pnpm
+node_modules/
+.pnpm-store/
+*.log
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Packaged release (generated separately)
+*.zip

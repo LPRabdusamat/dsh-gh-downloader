@@ -1,0 +1,10 @@
+# Bundle patch: load the Host half as a plain Cordis plugin.
+# The package.json `dsh.client` declaration makes the web app load ./client.js
+# as the browser half (main panel + sidebar entry).
+- insert:
+    - id: dsh-gh-downloader
+      name: dsh-gh-downloader
+      config:
+        proxy: https://gh-proxy.com/
+        downloadDir: dsh-gh-downloader-downloads
+        concurrency: 3
