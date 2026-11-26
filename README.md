@@ -48,12 +48,10 @@ GitHub 资源下载管理器插件。左侧栏提供一个**下载管理面板**
 复制下面整段提示词，粘贴到 DSH 对话里发送即可。AI 会自己执行安装命令：
 
 ```text
-请帮我安装 GitHub 上的 DSH 插件 dsh-gh-downloader。
-
-仓库地址：https://github.com/LPRabdusamat/dsh-gh-downloader
+请帮我安装 DSH 插件 dsh-gh-downloader（已发布在 npm 官方源）。
 
 请执行：
-dsh plugin --profile desktop add git+https://github.com/LPRabdusamat/dsh-gh-downloader.git
+dsh plugin --profile desktop add dsh-gh-downloader
 
 安装后确认 dsh-gh-downloader 已加入 desktop profile 的 dsh.profile.bundles，然后告诉我需要重启 DSH 生效。
 ```
@@ -66,19 +64,33 @@ dsh plugin --profile desktop add git+https://github.com/LPRabdusamat/dsh-gh-down
 2. 打开终端（PowerShell / CMD 均可），执行：
 
 ```powershell
-dsh plugin --profile desktop add git+https://github.com/LPRabdusamat/dsh-gh-downloader.git
+dsh plugin --profile desktop add dsh-gh-downloader
 ```
 
-3. 看到类似 `+ dsh-gh-downloader ...` 的输出即安装成功。
+3. 看到类似 `+ dsh-gh-downloader@0.1.0 ...` 的输出即安装成功。
 4. **重启 DSH**（本 profile 未启用 HMR，不重启不会加载）。
 5. 验证：左侧栏出现「GitHub 下载」图标，点开是下载管理器面板。
 
 > 如果你的默认 profile 不叫 `desktop`，把命令里的 `desktop` 换成你的 profile 名（在 `C:\Users\Administrator\.dsh\profiles\` 下能看到）。
+>
+> **备选（从 GitHub 仓库装）**：如果 npm 源暂时不可用，也可以用 GitHub 地址安装，效果一样：
+> ```powershell
+> dsh plugin --profile desktop add git+https://github.com/LPRabdusamat/dsh-gh-downloader.git
+> ```
+
+### 在线更新
+
+插件已发布到 npm，**不用重新安装**就能升级。以后出新版时：
+
+- 在 DSH 的插件页面找到 `dsh-gh-downloader`，点「更新」即可；
+- 或让 AI 执行：`dsh plugin --profile desktop update dsh-gh-downloader`
+
+或直接对 AI 说「把 dsh-gh-downloader 更新到最新版」。更新后重启 DSH 生效。
 
 ### 方式三：本地目录安装（适合想自己改代码的人）
 
 **这个方式是干嘛的？**
-普通安装（方式一/二）是把插件从 GitHub 下载一份"副本"装进 DSH，以后你改不到它。而"本地目录安装"是让 DSH 直接用你电脑上一个文件夹里的插件代码——**你改那个文件夹里的代码，重启 DSH 就生效**，不用重新下载、不用重新安装。适合想自己改插件、加功能、调试的人。普通用户用方式一/二就够了，可以跳过这个。
+普通安装（方式一/二）是把插件从 npm / GitHub 下载一份"副本"装进 DSH，以后你改不到它。而"本地目录安装"是让 DSH 直接用你电脑上一个文件夹里的插件代码——**你改那个文件夹里的代码，重启 DSH 就生效**，不用重新下载、不用重新安装。适合想自己改插件、加功能、调试的人。普通用户用方式一/二就够了，可以跳过这个。
 
 **手把手步骤：**
 
