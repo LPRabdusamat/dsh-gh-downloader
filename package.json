@@ -1,6 +1,6 @@
 {
   "name": "dsh-gh-downloader",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "GitHub 资源下载器：对话中让 AI 通过 gh-proxy 加速下载 GitHub 文件，侧栏提供任务面板。",
   "type": "module",
   "icon": "icon.svg",
