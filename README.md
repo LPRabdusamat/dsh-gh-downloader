@@ -4,6 +4,10 @@ GitHub 资源下载管理器插件。左侧栏提供一个**百度网盘式的�
 
 界面风格：哆啦A梦色调的界面 + 我的世界箱子风的按钮/控件。
 
+> **快速安装**：把「[安装教程](#安装教程新手照做即可) — 方式一」里那段提示词整段发给 DSH 里的 AI，它会自动帮你装好。详见下方完整教程。
+
+> **让 agent 用这个插件下载**：安装后无需额外配置。直接对 AI 说「帮我下载 https://github.com/... 这个 release / 源码包」，它会自动调用 `github_download` 走加速通道下载。
+
 ## 功能
 
 ### Agent 自动调用（主用途）
@@ -37,26 +41,78 @@ GitHub 资源下载管理器插件。左侧栏提供一个**百度网盘式的�
 - 并发队列（默认 3，可配置），流式落盘不缓存整包。
 - 任务账本持久化到 `<DSH_HOME>/dsh-gh-downloader/tasks.json`，重启后历史保留，中断任务恢复为可续传的暂停态；默认目录变更存到同目录的 `settings.json`。
 
-## 安装
+## 安装教程（新手照做即可）
 
-在 profile 目录（本机为 `C:\Users\Administrator\.dsh\profiles\desktop`）执行：
+### 方式一：让 AI 帮你装（最省事，推荐）
 
-```powershell
-dsh plugin --profile desktop add file:<本插件目录的绝对路径>
+复制下面整段提示词，粘贴到 DSH 对话里发送即可。AI 会自己执行安装命令：
+
+```text
+请帮我安装 GitHub 上的 DSH 插件 dsh-gh-downloader。
+
+仓库地址：https://github.com/LPRabdusamat/dsh-gh-downloader
+
+请执行：
+dsh plugin --profile desktop add git+https://github.com/LPRabdusamat/dsh-gh-downloader.git
+
+安装后确认 dsh-gh-downloader 已加入 desktop profile 的 dsh.profile.bundles，然后告诉我需要重启 DSH 生效。
 ```
 
-例如：
+安装成功后**重启 DSH**，左侧栏出现「GitHub 下载」入口即完成。
+
+### 方式二：手动命令行安装
+
+1. 确认环境：DSH 已安装，且 `dsh` 命令可用（DSH 桌面版用自带 CLI）。
+2. 打开终端（PowerShell / CMD 均可），执行：
 
 ```powershell
-dsh plugin --profile desktop add file:C:/Users/Administrator/Documents/deepseek-harness/default-workspace/dsh-gh-downloader
+dsh plugin --profile desktop add git+https://github.com/LPRabdusamat/dsh-gh-downloader.git
 ```
 
-安装会自动把 `dsh-gh-downloader` 加入 `dsh.profile.bundles` 并用 pnpm 建立依赖。
+3. 看到类似 `+ dsh-gh-downloader ...` 的输出即安装成功。
+4. **重启 DSH**（本 profile 未启用 HMR，不重启不会加载）。
+5. 验证：左侧栏出现「GitHub 下载」图标，点开是下载管理器面板。
 
-本 profile 未启用 HMR，**改动代码后需重启 DSH 生效**。若直接改源码，需同步到安装目录：
+> 如果你的默认 profile 不叫 `desktop`，把命令里的 `desktop` 换成你的 profile 名（在 `C:\Users\Administrator\.dsh\profiles\` 下能看到）。
+
+### 方式三：本地目录安装（开发调试用）
+
+先克隆仓库，再用 `file:` 路径安装（改代码即时生效，适合自己改插件）：
 
 ```powershell
-$src='<本插件目录>\lib'
+git clone https://github.com/LPRabdusamat/dsh-gh-downloader.git
+dsh plugin --profile desktop add file:<克隆目录的绝对路径>
+```
+
+例如克隆到了 `D:\dsh-gh-downloader`：
+
+```powershell
+dsh plugin --profile desktop add file:D:/dsh-gh-downloader
+```
+
+### 验证安装是否成功
+
+安装命令会自动把插件加入 profile 的 `dsh.profile.bundles` 并用 pnpm 建立依赖。可以检查：
+
+```powershell
+# 查看 profile 配置里是否有 dsh-gh-downloader
+Get-Content C:\Users\Administrator\.dsh\profiles\desktop\package.json | Select-String dsh-gh-downloader
+```
+
+看到 `dsh-gh-downloader` 即正常。
+
+### 卸载
+
+```powershell
+dsh plugin --profile desktop remove dsh-gh-downloader
+```
+
+### 开发者：改源码后同步
+
+`file:` 安装改源码即时生效；git/npm 安装是 pnpm 复制的实体文件，改源码后需同步再重启：
+
+```powershell
+$src='<你的源码目录>\lib'
 $dst='C:\Users\Administrator\.dsh\profiles\desktop\node_modules\dsh-gh-downloader\lib'
 Copy-Item "$src\index.js" "$dst\index.js" -Force
 Copy-Item "$src\client.js" "$dst\client.js" -Force
