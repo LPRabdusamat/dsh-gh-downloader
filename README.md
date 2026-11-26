@@ -75,20 +75,53 @@ dsh plugin --profile desktop add git+https://github.com/LPRabdusamat/dsh-gh-down
 
 > 如果你的默认 profile 不叫 `desktop`，把命令里的 `desktop` 换成你的 profile 名（在 `C:\Users\Administrator\.dsh\profiles\` 下能看到）。
 
-### 方式三：本地目录安装（开发调试用）
+### 方式三：本地目录安装（适合想自己改代码的人）
 
-先克隆仓库，再用 `file:` 路径安装（改代码即时生效，适合自己改插件）：
+**这个方式是干嘛的？**
+普通安装（方式一/二）是把插件从 GitHub 下载一份"副本"装进 DSH，以后你改不到它。而"本地目录安装"是让 DSH 直接用你电脑上一个文件夹里的插件代码——**你改那个文件夹里的代码，重启 DSH 就生效**，不用重新下载、不用重新安装。适合想自己改插件、加功能、调试的人。普通用户用方式一/二就够了，可以跳过这个。
+
+**手把手步骤：**
+
+**第 1 步：把插件代码下载到本机**
+打开 PowerShell，先 `cd` 到一个你想放插件的地方（比如 D 盘根目录）：
+
+```powershell
+cd D:\
+```
+
+然后克隆仓库（就是把 GitHub 上的代码下载到 `D:\dsh-gh-downloader` 文件夹）：
 
 ```powershell
 git clone https://github.com/LPRabdusamat/dsh-gh-downloader.git
-dsh plugin --profile desktop add file:<克隆目录的绝对路径>
 ```
 
-例如克隆到了 `D:\dsh-gh-downloader`：
+执行完后，检查一下文件夹在不在：
+
+```powershell
+dir D:\dsh-gh-downloader
+```
+
+能看到 `package.json`、`lib` 文件夹等内容就对了。
+
+**第 2 步：把这个文件夹安装给 DSH**
 
 ```powershell
 dsh plugin --profile desktop add file:D:/dsh-gh-downloader
 ```
+
+注意这里的写法：
+- `file:` 开头是固定写法，表示"从本机文件夹安装"
+- `D:/dsh-gh-downloader` 就是第 1 步下载的文件夹路径（**用正斜杠 `/`**，不要用反斜杠 `\`）
+- 如果你的文件夹在别处，比如 `C:\Users\你的名字\我的插件`，就写成 `file:C:/Users/你的名字/我的插件`
+
+**第 3 步：重启 DSH**
+
+重启后左侧栏出现「GitHub 下载」即成功。
+
+**第 4 步（可选）：改代码测试**
+现在你可以直接用记事本/VSCode 修改 `D:\dsh-gh-downloader\lib\` 里的代码，改完**重启 DSH**就生效，不用再执行任何安装命令。这就是这个方式最大的好处。
+
+> 常见问题：如果第 2 步报错"路径不存在"，说明第 1 步的文件夹路径和命令里写的不一致，用 `dir 你的路径` 确认一下实际路径。
 
 ### 验证安装是否成功
 
