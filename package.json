@@ -18,6 +18,7 @@
     "lib/client.js",
     "cordis.patch.yml",
     "locale/*.json",
+    "screenshots.json",
     "docs/screenshot.png",
     "README.md"
   ],
